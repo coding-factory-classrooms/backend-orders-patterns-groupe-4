@@ -1,6 +1,5 @@
 import org.example.CommandHandler;
 import org.example.models.Command;
-import org.example.models.items.PS5;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
