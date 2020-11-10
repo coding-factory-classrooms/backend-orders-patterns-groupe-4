@@ -1,5 +1,6 @@
 package org.example;
 
+import org.example.controllers.CommandsController;
 import org.example.controllers.HomeController;
 import org.example.core.Conf;
 import org.example.core.Template;
@@ -14,7 +15,13 @@ public class App {
 
         CommandHandler commandHandler = new CommandHandler();
         HomeController homeController = new HomeController(commandHandler);
+        CommandsController commandsController = new CommandsController(commandHandler);
+
+        // Home routes
         Spark.get("/", homeController::homePage);
+
+        // Commands route
+        Spark.get("/commands", commandsController::create);
     }
 
     static void initialize() {
