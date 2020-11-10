@@ -1,0 +1,38 @@
+#parse("base.html")
+#@mainLayout()
+<h1 class="title">Order something</h1>
+<div class="container">
+    <form method="GET" action="/commands" class="columns">
+        <div class="column">
+            <h2 class="title is-3">Consoles</h2>
+            <div>
+                <div class="control">
+                    <div class="select">
+                        <select name="console-name">
+                            <option selected value="">None</option>
+                            <option value="ps5">PS5</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="column">
+            <h2 class="title is-3">Goodies</h2>
+            <div>
+                <div class="control">
+                    <div class="select">
+                        <select name="goodie-name">
+                            <option selected value="">None</option>
+                            <option value="strap">Strap</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="action" value="create_order" />
+        <div class="column">
+            <button class="button is-primary" type="submit">Submit Order</button>
+        </div>
+    </form>
+</div>
+#end
