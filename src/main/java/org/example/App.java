@@ -1,5 +1,6 @@
 package org.example;
 
+import org.example.controllers.HomeController;
 import org.example.core.Conf;
 import org.example.core.Template;
 import org.example.middlewares.LoggerMiddleware;
@@ -11,9 +12,8 @@ public class App {
     public static void main(String[] args) {
         initialize();
 
-        Spark.get("/", (req, res) -> {
-            return Template.render("home.html", new HashMap<>());
-        });
+        HomeController homeController = new HomeController();
+        Spark.get("/", homeController::homePage);
     }
 
     static void initialize() {
