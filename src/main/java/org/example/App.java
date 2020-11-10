@@ -12,7 +12,8 @@ public class App {
     public static void main(String[] args) {
         initialize();
 
-        HomeController homeController = new HomeController();
+        CommandHandler commandHandler = new CommandHandler();
+        HomeController homeController = new HomeController(commandHandler);
         Spark.get("/", homeController::homePage);
     }
 

@@ -1,13 +1,19 @@
 #parse("base.html")
 #@mainLayout()
 <div class="container">
-    <div class="table">
+    <table class="table">
         <thead>
-            <th>Order number</th>
+            <tr>
+                <th>Order number</th>
+            </tr>
         </thead>
         <tbody>
-
+            #foreach ($command in $commands)
+            <tr>
+                <td><a href="/commands/$foreach.count">$foreach.count</a></td>
+            </tr>
+            #end
         </tbody>
-    </div>
+    </table>
 </div>
 #end
