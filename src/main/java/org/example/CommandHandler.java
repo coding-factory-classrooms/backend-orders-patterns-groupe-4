@@ -59,6 +59,15 @@ public class CommandHandler implements OnOrderChangeListener{
         this.commands = new ArrayList<>(this.history.get(historyIndex).getState());
     }
 
+    public void redoAction() {
+        int redoIndex = historyIndex + 1;
+        if (redoIndex > this.history.size()) {
+            return;
+        }
+        historyIndex = redoIndex;
+        this.commands = new ArrayList<>(this.history.get(historyIndex).getState());
+    }
+
     public int getHistoryIndex() {
         return this.historyIndex;
     }

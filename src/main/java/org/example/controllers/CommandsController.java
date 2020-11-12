@@ -53,6 +53,8 @@ public class CommandsController {
         if (!action.isEmpty()) {
             if (action.equals("undo")) {
                 commandHandler.undoAction();
+            } else if (action.equals("redo")) {
+                commandHandler.redoAction();
             }
         }
 

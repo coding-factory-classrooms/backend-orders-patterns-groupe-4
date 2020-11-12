@@ -83,4 +83,22 @@ public class CommandHandlerTest {
         commandHandler.undoAction();
         Assert.assertEquals(Command.State.NEW, commandHandler.getCommands().get(0).getState());
     }
+
+    @Test(expected = Test.None.class) public void verifyRedoEmptyHistory() {
+        commandHandler.redoAction();
+    }
+
+    @Test public void verifyRedoOnceEntryHistory() {
+        Command order = new Command();
+        commandHandler.addCommand(order);
+        order.setOnChangeListener(commandHandler);
+
+        order.setState(Command.State.IN_PROGRESS);
+        commandHandler.undoAction();
+
+        Assert.assertEquals(Command.State.NEW, commandHandler.getCommands().get(0).getState());
+        commandHandler.redoAction();
+
+        Assert.assertEquals(Command.State.IN_PROGRESS, commandHandler.getCommands().get(0).getState());
+    }
 }
