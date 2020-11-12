@@ -1,8 +1,8 @@
 package org.example.controllers;
 
-import org.example.OrdersHandler;
+import org.example.CommandHandler;s
 import org.example.core.Template;
-import org.example.models.Order;
+import org.example.models.Command;
 import org.example.models.items.Console;
 import org.example.models.items.Goodie;
 import spark.Request;
@@ -12,10 +12,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommandsController {
-    private OrdersHandler ordersHandler;
+    private CommandHandler commandHandler;
 
-    public CommandsController(OrdersHandler handler) {
-        this.ordersHandler = handler;
+    public CommandsController(CommandHandler handler) {
+        this.commandHandler = handler;
     }
 
     public String createOrder(Request request, Response response) {
@@ -25,20 +25,20 @@ public class CommandsController {
             String console = request.queryParamOrDefault("console-name", "");
             String goodie = request.queryParamOrDefault("goodie-name", "");
 
-            Order order = new Order();
+            Command command = new Command();
             if (!console.equals("")) {
                 Console item = new Console();
                 item.setName(console);
-                order.addItem(item);
+                command.addItem(item);
             }
 
             if (!goodie.equals("")) {
                 Goodie item = new Goodie();
                 item.setName(goodie);
-                order.addItem(item);
+                command.addItem(item);
             }
-            order.setOnChangeListener(ordersHandler);
-            ordersHandler.addCommand(order);
+            command.setOnChangeListener(commandHandler);
+            commandHandler.addCommand(command);
 
             // TODO: Rediriger vers la page de la commande (customer)
         }
@@ -52,33 +52,33 @@ public class CommandsController {
 
         if (!action.isEmpty()) {
             if (action.equals("undo")) {
-                ordersHandler.undoAction();
+                commandHandler.undoAction();
             } else if (action.equals("redo")) {
-                ordersHandler.redoAction();
+                commandHandler.redoAction();
             }
         }
 
         Map<String, Object> params = new HashMap<>();
-        params.put("commands", ordersHandler.getCommands());
-        params.put("history", ordersHandler.getHistory());
-        params.put("historyIndex", ordersHandler.getHistoryIndex());
+        params.put("commands", commandHandler.getCommands());
+        params.put("history", commandHandler.getHistory());
+        params.put("historyIndex", commandHandler.getHistoryIndex());
         return Template.render("dashboard.html", params);
     }
 
     public String employeeDetail(Request request, Response response) {
         int id = Integer.parseInt(request.params("id"));
         int index = id - 1;
-        Order order = ordersHandler.getCommands().get(index);
+        Command command = commandHandler.getCommands().get(index);
 
         String newStateString = request.queryParamOrDefault("state", "");
         if (!newStateString.isEmpty()) {
-            Order.State newState = Order.State.valueOf(newStateString);
-            order.setState(newState);
+            Command.State newState = Command.State.valueOf(newStateString);
+            command.setState(newState);
         }
 
         Map<String, Object> params = new HashMap<>();
-        params.put("order", order);
-        params.put("states", Order.State.values());
+        params.put("order", command);
+        params.put("states", Command.State.values());
         return Template.render("employee/detail.html", params);
     }
 

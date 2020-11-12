@@ -11,8 +11,8 @@ public class App {
     public static void main(String[] args) {
         initialize();
 
-        OrdersHandler ordersHandler = new OrdersHandler();
-        HomeController homeController = new HomeController(ordersHandler);
+        CommandHandler ordersHandler = new CommandHandler();
+        HomeController homeController = new HomeController();
         CommandsController commandsController = new CommandsController(ordersHandler);
 
         // Home routes

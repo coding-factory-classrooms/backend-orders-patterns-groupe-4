@@ -1,41 +1,41 @@
 package org.example;
 
-import org.example.models.Order;
+import org.example.models.Command;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
-public class OrdersHandler implements OnOrderChangeListener{
-    public List<Order> orders;
+public class CommandHandler implements OnOrderChangeListener{
+    public List<Command> commands;
     private List<CommandsMemento> history;
     private int historyIndex;
 
 
-    public OrdersHandler() {
-        this.orders = new ArrayList<>();
+    public CommandHandler() {
+        this.commands = new ArrayList<>();
         this.history = new ArrayList<>();
         historyIndex = 0;
     }
 
-    public List<Order> getCommands() {
-        return orders;
+    public List<Command> getCommands() {
+        return commands;
     }
 
-
-
-    public void addCommand(Order order) {
-        if (!order.getState().equals(Order.State.NEW)) {
+    public void addCommand(Command command) {
+        if (!command.getState().equals(Command.State.NEW)) {
             return;
         }
 
-        this.orders.add(order);
+        this.commands.add(command);
         this.setState();
     }
 
 
     public void setState() {
-        this.history.add(new CommandsMemento(this.orders));
+        this.history.add(new CommandsMemento(this.commands));
         this.historyIndex = this.history.size() - 1;
     }
 
@@ -54,7 +54,7 @@ public class OrdersHandler implements OnOrderChangeListener{
             return;
         }
         historyIndex = undoIndex;
-        this.orders = new ArrayList<>(this.history.get(historyIndex).getState());
+        this.commands = new ArrayList<>(this.history.get(historyIndex).getState());
     }
 
     public void redoAction() {
@@ -63,7 +63,7 @@ public class OrdersHandler implements OnOrderChangeListener{
             return;
         }
         historyIndex = redoIndex;
-        this.orders = new ArrayList<>(this.history.get(historyIndex).getState());
+        this.commands = new ArrayList<>(this.history.get(historyIndex).getState());
     }
 
     public int getHistoryIndex() {
@@ -71,26 +71,26 @@ public class OrdersHandler implements OnOrderChangeListener{
     }
 
     public class CommandsMemento {
-        private List<Order> state;
+        private List<Command> state;
 
-        public List<Order> getState() {
+        public List<Command> getState() {
             return state;
         }
 
-        public CommandsMemento(List<Order> state) {
+        public CommandsMemento(List<Command> state) {
             this.state = this.clone(state);
         }
 
-        private List<Order> clone(List<Order> orders) {
-            List<Order> orderList = new ArrayList<>();
+        private List<Command> clone(List<Command> commands) {
+            List<Command> commandList = new ArrayList<>();
 
-            for (Order order : orders) {
-                Order copyOrder = new Order();
-                copyOrder.setState(order.getState());
-                copyOrder.getItems().addAll(order.getItems());
-                orderList.add(copyOrder);
+            for (Command command: commands) {
+                Command copyCommand = new Command();
+                copyCommand.setState(command.getState());
+                copyCommand.getItems().addAll(command.getItems());
+                commandList.add(copyCommand);
             }
-            return orderList;
+            return commandList;
         }
 
         @Override

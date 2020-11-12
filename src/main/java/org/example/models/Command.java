@@ -6,7 +6,7 @@ import org.example.models.items.Item;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Order {
+public class Command {
     public void setOnChangeListener(OnOrderChangeListener onChangeListener) {
         this.listener = onChangeListener;
     }
@@ -23,7 +23,7 @@ public class Order {
 
     private OnOrderChangeListener listener;
 
-    public Order() {
+    public Command() {
         this.items = new ArrayList<>();
         this.state = State.NEW;
     }
@@ -41,7 +41,7 @@ public class Order {
     }
 
     public void setState(State state) {
-        if (this.getState() == Order.State.PROCESSED || this.getState() == Order.State.ABORTED) {
+        if (this.getState() == Command.State.PROCESSED || this.getState() == Command.State.ABORTED) {
             return;
         }
 
