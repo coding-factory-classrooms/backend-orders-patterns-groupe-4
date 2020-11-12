@@ -21,7 +21,8 @@ public class App {
         Spark.get("/", homeController::homePage);
 
         // Commands route
-        Spark.get("/commands", commandsController::create);
+        Spark.get("/order", commandsController::createOrder);
+        Spark.get("/dashboard", commandsController::dashboard);
     }
 
     static void initialize() {

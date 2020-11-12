@@ -19,7 +19,7 @@ public class CommandsController {
         this.commandHandler = handler;
     }
 
-    public String create(Request request, Response response) {
+    public String createOrder(Request request, Response response) {
         String action = request.queryParamOrDefault("action", "");
 
         if (action.equals("create_order")) {
@@ -40,10 +40,15 @@ public class CommandsController {
             }
             commandHandler.addCommand(command);
 
-            // TODO: Rediriger vers la page de dashboard
+            // TODO: Rediriger vers la page de la commande (customer)
         }
 
         Map<String, Object> params = new HashMap<>();
         return Template.render("create_command.html", params);
     }
-}
+
+    public String dashboard(Request request, Response response) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("commands", commandHandler.getCommands());
+        return Template.render("dashboard.html", params);
+    }

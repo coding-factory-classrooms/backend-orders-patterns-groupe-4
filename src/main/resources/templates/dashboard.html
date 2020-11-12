@@ -1,0 +1,28 @@
+#parse("base.html")
+#@mainLayout()
+<h1 class="title is-1">Dashboard</h1>
+<div class="container">
+    <button onclick="reload()" class="button is-primary">Refresh</button>
+    <h2 class="title is-2">Orders</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Order number</th>
+            </tr>
+        </thead>
+        <tbody>
+            #foreach ($command in $commands)
+            <tr>
+                <td><a href="/orders/$foreach.count">$foreach.count</a></td>
+            </tr>
+            #end
+        </tbody>
+    </table>
+</div>
+
+<script>
+    function reload() {
+        document.location.reload(true);
+    }
+</script>
+#end
