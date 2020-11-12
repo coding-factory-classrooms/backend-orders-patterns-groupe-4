@@ -5,7 +5,6 @@ import org.example.core.Template;
 import org.example.models.Command;
 import org.example.models.items.Console;
 import org.example.models.items.Goodie;
-import org.example.models.items.Item;
 import spark.Request;
 import spark.Response;
 
@@ -54,7 +53,16 @@ public class CommandsController {
     }
 
     public String employeeDetail(Request request, Response response) {
+        int id = Integer.parseInt(request.params("id"));
+        int index = id - 1;
+
+        Command command = commandHandler.getCommands().get(index);
         Map<String, Object> params = new HashMap<>();
-        
+        params.put("command", command);
         return Template.render("employee/detail.html", params);
     }
+
+    public String customerDetail(Request request, Response response) {
+        return "";
+    }
+}
