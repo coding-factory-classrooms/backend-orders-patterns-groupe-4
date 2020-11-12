@@ -65,6 +65,7 @@ public class CommandHandlerTest {
     @Test public void updateEntryInList() {
         Assert.assertEquals(0,commandHandler.getHistory().size());
         Command order = new Command();
+        order.setOnChangeListener(commandHandler);
         commandHandler.addCommand(order);
         order.setState(Command.State.IN_PROGRESS);
         Assert.assertEquals(2,commandHandler.getHistory().size());

@@ -55,6 +55,7 @@ public class CommandsController {
                 commandHandler.undoAction();
             }
         }
+
         Map<String, Object> params = new HashMap<>();
         params.put("commands", commandHandler.getCommands());
         params.put("history", commandHandler.getHistory());

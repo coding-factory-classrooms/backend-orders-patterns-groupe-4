@@ -26,7 +26,7 @@
     </div>
     <ul>
         #foreach ($history_line in $history)
-            #if ($historyIndex == $foreach.count)
+            #if ($historyIndex == ($foreach.count - 1))
                 <li><strong>$history_line</strong></li>
             #else
                 <li>$history_line</li>
@@ -42,7 +42,6 @@
     async function undo() {
         await fetch("/dashboard?action=undo");
         reload();
-        //window.location= "/dashboard?action=undo"
     }
 </script>
 #end

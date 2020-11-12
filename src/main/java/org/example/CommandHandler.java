@@ -37,9 +37,8 @@ public class CommandHandler implements OnOrderChangeListener{
 
 
     public void setState() {
-        this.history.add( new CommandsMemento(this.commands));
-        historyIndex++;
-
+        this.history.add(new CommandsMemento(this.commands));
+        this.historyIndex = this.history.size() - 1;
     }
 
     public List<CommandsMemento> getHistory() {
@@ -52,7 +51,7 @@ public class CommandHandler implements OnOrderChangeListener{
     }
 
     public void undoAction() {
-        int undoIndex = historyIndex -1;
+        int undoIndex = historyIndex - 1;
         if (undoIndex < 0) {
             return;
         }

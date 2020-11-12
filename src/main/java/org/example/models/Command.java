@@ -42,7 +42,6 @@ public class Command {
     }
 
     public void setState(State state) {
-
         if (this.getState() == Command.State.PROCESSED || this.getState() == Command.State.ABORTED) {
             return;
         }
