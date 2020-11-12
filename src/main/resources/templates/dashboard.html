@@ -18,11 +18,30 @@
             #end
         </tbody>
     </table>
+    <h2 class="title">History</h2>
+
+    <div>
+        <button class="button is-danger" onclick="executeAction('undo')">Undo</button>
+        <button class="button is-primary" onclick="executeAction('redo')">Redo</button>
+    </div>
+    <ul>
+        #foreach ($history_line in $history)
+            #if ($historyIndex == ($foreach.count - 1))
+                <li><strong>$history_line</strong></li>
+            #else
+                <li>$history_line</li>
+            #end
+        #end
+    </ul>
 </div>
 
 <script>
     function reload() {
         document.location.reload(true);
+    }
+    async function executeAction(actionName) {
+        await fetch(`/dashboard?action=${actionName}`);
+        reload();
     }
 </script>
 #end

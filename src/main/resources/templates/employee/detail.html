@@ -2,13 +2,13 @@
 #@mainLayout()
 <h1 class="title">Order detail</h1>
 <div class="container content">
-    <h2 class="title is-2">Change the status of the order</h2>
+    <h2 class="title is-2">Items</h2>
     <ol type="1">
-        #foreach ($item in $order.getItems())
+        #foreach ($item in $command.getItems())
             <li>$item.getName()</li>
         #end
     </ol>
-    <h2 class="title is-2">Change the status of the order</h2>
+    <h2 class="title is-2">Change the status of the command</h2>
     <form method="GET" action="">
         <div class="select">
             <select id="select" name="state">
@@ -17,12 +17,12 @@
                 #end
             </select>
         </div>
-        <button class="button is-primary" type="submit">Update order</button>
+        <button class="button is-primary" type="submit">Update command</button>
     </form>
 </div>
 <script>
     document.querySelectorAll("#select > option").forEach((item) => {
-        const isSelected = item.attributes.getNamedItem("value").value === "$order.getState()";
+        const isSelected = item.attributes.getNamedItem("value").value === "$command.getState()";
         if (isSelected) {
             item.setAttribute("selected", "selected");
         }

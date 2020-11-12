@@ -8,15 +8,13 @@ import org.example.middlewares.LoggerMiddleware;
 import spark.Spark;
 import org.example.CommandHandler;
 
-import java.util.HashMap;
-
 public class App {
     public static void main(String[] args) {
         initialize();
 
-        CommandHandler commandHandler = new CommandHandler();
-        HomeController homeController = new HomeController(commandHandler);
-        CommandsController commandsController = new CommandsController(commandHandler);
+        CommandHandler ordersHandler = new CommandHandler();
+        HomeController homeController = new HomeController();
+        CommandsController commandsController = new CommandsController(ordersHandler);
 
         // Home routes
         Spark.get("/", homeController::homePage);

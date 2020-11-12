@@ -37,6 +37,7 @@ public class CommandsController {
                 item.setName(goodie);
                 command.addItem(item);
             }
+            command.setOnChangeListener(commandHandler);
             commandHandler.addCommand(command);
             response.redirect("/orders/" + commandHandler.getCommands().size() + "/customer");
         }
@@ -46,24 +47,36 @@ public class CommandsController {
     }
 
     public String dashboard(Request request, Response response) {
+        String action = request.queryParamOrDefault("action", "");
+
+        if (!action.isEmpty()) {
+            if (action.equals("undo")) {
+                commandHandler.undoAction();
+            } else if (action.equals("redo")) {
+                commandHandler.redoAction();
+            }
+        }
+
         Map<String, Object> params = new HashMap<>();
         params.put("commands", commandHandler.getCommands());
+        params.put("history", commandHandler.getHistory());
+        params.put("historyIndex", commandHandler.getHistoryIndex());
         return Template.render("dashboard.html", params);
     }
 
     public String employeeDetail(Request request, Response response) {
         int id = Integer.parseInt(request.params("id"));
         int index = id - 1;
-        Command order = commandHandler.getCommands().get(index);
+        Command command = commandHandler.getCommands().get(index);
 
         String newStateString = request.queryParamOrDefault("state", "");
         if (!newStateString.isEmpty()) {
             Command.State newState = Command.State.valueOf(newStateString);
-            commandHandler.updateOrder(order, newState);
+            command.setState(newState);
         }
 
         Map<String, Object> params = new HashMap<>();
-        params.put("order", order);
+        params.put("command", command);
         params.put("states", Command.State.values());
         return Template.render("employee/detail.html", params);
     }
