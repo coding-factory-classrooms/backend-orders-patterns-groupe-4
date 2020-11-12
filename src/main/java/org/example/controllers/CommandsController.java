@@ -91,6 +91,6 @@ public class CommandsController {
         params.put("orderId", id);
         params.put("state", order.getState());
         params.put("items", order.getItems());
-        return Template.render("orderList.html", params);
+        return Template.render("customer/orderList.html", params);
     }
 }
