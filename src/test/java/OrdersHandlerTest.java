@@ -78,6 +78,7 @@ public class OrdersHandlerTest {
     @Test public void verifyUndoOnceEntryHistory() {
         Order order = new Order();
         ordersHandler.addOrder(order);
+        order.setOnChangeListener(ordersHandler);
         order.setState(Order.State.IN_PROGRESS);
         ordersHandler.undoAction();
         Assert.assertEquals(Order.State.NEW, ordersHandler.getCommands().get(0).getState());

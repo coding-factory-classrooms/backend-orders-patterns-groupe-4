@@ -1,19 +1,22 @@
 package org.example;
 
+import org.example.mementos.OrdersOriginator;
 import org.example.models.Order;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class OrdersHandler implements OnOrderChangeListener{
-    public List<Order> orders;
-    private List<OrdersMemento> history;
+    private List<Order> orders;
+
+    private final List<OrdersOriginator.OrdersMemento> history;
+    private final OrdersOriginator originator;
     private int historyIndex;
 
     public OrdersHandler() {
         this.orders = new ArrayList<>();
         this.history = new ArrayList<>();
+        this.originator = new OrdersOriginator();
         historyIndex = 0;
     }
 
@@ -27,7 +30,7 @@ public class OrdersHandler implements OnOrderChangeListener{
         }
 
         this.orders.add(order);
-        this.setState();
+        this.saveState();
     }
 
     public void undoAction() {
@@ -36,7 +39,8 @@ public class OrdersHandler implements OnOrderChangeListener{
             return;
         }
         historyIndex = undoIndex;
-        this.orders = new ArrayList<>(this.history.get(historyIndex).getState());
+        this.orders = this.originator.restore(this.history.get(historyIndex));
+        System.out.println(this.orders);
     }
 
     public void redoAction() {
@@ -45,54 +49,25 @@ public class OrdersHandler implements OnOrderChangeListener{
             return;
         }
         historyIndex = redoIndex;
-        this.orders = new ArrayList<>(this.history.get(historyIndex).getState());
+        this.orders = this.originator.restore(this.history.get(historyIndex));
     }
 
     @Override
     public void onOrderChange() {
-        this.setState();
+        this.saveState();
     }
 
-    public void setState() {
-        this.history.add(new OrdersMemento(this.orders));
+    public void saveState() {
+        this.history.add(this.originator.save(this.orders));
         this.historyIndex = this.history.size() - 1;
     }
 
-    public List<OrdersMemento> getHistory() {
+    public List<OrdersOriginator.OrdersMemento> getHistory() {
         return history;
     }
 
     public int getHistoryIndex() {
         return this.historyIndex;
-    }
-
-    public class OrdersMemento {
-        private List<Order> state;
-
-        public List<Order> getState() {
-            return state;
-        }
-
-        public OrdersMemento(List<Order> state) {
-            this.state = this.clone(state);
-        }
-
-        private List<Order> clone(List<Order> orders) {
-            List<Order> orderList = new ArrayList<>();
-
-            for (Order order : orders) {
-                Order copyOrder = new Order();
-                copyOrder.setState(order.getState());
-                copyOrder.getItems().addAll(order.getItems());
-                orderList.add(copyOrder);
-            }
-            return orderList;
-        }
-
-        @Override
-        public String toString() {
-            return Arrays.toString(this.state.toArray());
-        }
     }
 }
 
