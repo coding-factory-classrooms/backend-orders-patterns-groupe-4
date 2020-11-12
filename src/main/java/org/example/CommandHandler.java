@@ -23,4 +23,12 @@ public class CommandHandler {
 
         this.commands.add(command);
     }
+
+    public void updateOrder(Command order, Command.State newState) {
+        if (order.getState() == Command.State.PROCESSED || order.getState() == Command.State.ABORTED) {
+            return;
+        }
+
+        order.setState(newState);
+    }
 }
