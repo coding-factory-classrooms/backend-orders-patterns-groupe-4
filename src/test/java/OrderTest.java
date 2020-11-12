@@ -1,24 +1,24 @@
 import org.example.OnOrderChangeListener;
-import org.example.models.Command;
+import org.example.models.Order;
 import org.example.models.items.Console;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-public class CommandTest {
+public class OrderTest {
 
-    private Command command;
+    private Order order;
 
     @Before
     public void before() {
-        command = new Command();
+        order = new Order();
     }
 
     @Test
     public void checkIfListenerIsCalledWhenUpdatingItems() {
         OnOrderChangeListener onOrderChangeListener = Mockito.mock(OnOrderChangeListener.class);
-        command.setOnChangeListener(onOrderChangeListener);
-        command.addItem(new Console());
+        order.setOnChangeListener(onOrderChangeListener);
+        order.addItem(new Console());
 
         Mockito.verify(onOrderChangeListener).onOrderChange();
     }
@@ -26,8 +26,8 @@ public class CommandTest {
     @Test
     public void checkIfListenerIsCalledWhenUpdatingState() {
         OnOrderChangeListener onOrderChangeListener = Mockito.mock(OnOrderChangeListener.class);
-        command.setOnChangeListener(onOrderChangeListener);
-        command.setState(Command.State.IN_PROGRESS);
+        order.setOnChangeListener(onOrderChangeListener);
+        order.setState(Order.State.IN_PROGRESS);
 
         Mockito.verify(onOrderChangeListener).onOrderChange();
     }

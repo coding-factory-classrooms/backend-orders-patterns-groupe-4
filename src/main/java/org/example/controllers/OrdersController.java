@@ -1,8 +1,8 @@
 package org.example.controllers;
 
-import org.example.CommandHandler;
+import org.example.OrdersHandler;
 import org.example.core.Template;
-import org.example.models.Command;
+import org.example.models.Order;
 import org.example.models.items.Console;
 import org.example.models.items.Goodie;
 import spark.Request;
@@ -11,11 +11,11 @@ import spark.Response;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CommandsController {
-    private CommandHandler commandHandler;
+public class OrdersController {
+    private OrdersHandler ordersHandler;
 
-    public CommandsController(CommandHandler handler) {
-        this.commandHandler = handler;
+    public OrdersController(OrdersHandler handler) {
+        this.ordersHandler = handler;
     }
 
     public String createOrder(Request request, Response response) {
@@ -25,25 +25,25 @@ public class CommandsController {
             String console = request.queryParamOrDefault("console-name", "");
             String goodie = request.queryParamOrDefault("goodie-name", "");
 
-            Command command = new Command();
+            Order order = new Order();
             if (!console.equals("")) {
                 Console item = new Console();
                 item.setName(console);
-                command.addItem(item);
+                order.addItem(item);
             }
 
             if (!goodie.equals("")) {
                 Goodie item = new Goodie();
                 item.setName(goodie);
-                command.addItem(item);
+                order.addItem(item);
             }
-            command.setOnChangeListener(commandHandler);
-            commandHandler.addCommand(command);
-            response.redirect("/orders/" + commandHandler.getCommands().size() + "/customer");
+            order.setOnChangeListener(ordersHandler);
+            ordersHandler.addOrder(order);
+            response.redirect("/orders/" + ordersHandler.getCommands().size() + "/customer");
         }
 
         Map<String, Object> params = new HashMap<>();
-        return Template.render("create_command.html", params);
+        return Template.render("create_order.html", params);
     }
 
     public String dashboard(Request request, Response response) {
@@ -51,33 +51,33 @@ public class CommandsController {
 
         if (!action.isEmpty()) {
             if (action.equals("undo")) {
-                commandHandler.undoAction();
+                ordersHandler.undoAction();
             } else if (action.equals("redo")) {
-                commandHandler.redoAction();
+                ordersHandler.redoAction();
             }
         }
 
         Map<String, Object> params = new HashMap<>();
-        params.put("commands", commandHandler.getCommands());
-        params.put("history", commandHandler.getHistory());
-        params.put("historyIndex", commandHandler.getHistoryIndex());
+        params.put("orders", ordersHandler.getCommands());
+        params.put("history", ordersHandler.getHistory());
+        params.put("historyIndex", ordersHandler.getHistoryIndex());
         return Template.render("dashboard.html", params);
     }
 
     public String employeeDetail(Request request, Response response) {
         int id = Integer.parseInt(request.params("id"));
         int index = id - 1;
-        Command command = commandHandler.getCommands().get(index);
+        Order order = ordersHandler.getCommands().get(index);
 
         String newStateString = request.queryParamOrDefault("state", "");
         if (!newStateString.isEmpty()) {
-            Command.State newState = Command.State.valueOf(newStateString);
-            command.setState(newState);
+            Order.State newState = Order.State.valueOf(newStateString);
+            order.setState(newState);
         }
 
         Map<String, Object> params = new HashMap<>();
-        params.put("command", command);
-        params.put("states", Command.State.values());
+        params.put("order", order);
+        params.put("states", Order.State.values());
         return Template.render("employee/detail.html", params);
     }
 
@@ -85,7 +85,7 @@ public class CommandsController {
         int id = Integer.parseInt(request.params("id"));
         int index = id - 1;
 
-        Command order = commandHandler.getCommands().get(index);
+        Order order = ordersHandler.getCommands().get(index);
 
         Map<String, Object> params = new HashMap<>();
         params.put("orderId", id);

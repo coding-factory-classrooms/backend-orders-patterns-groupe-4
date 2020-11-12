@@ -1,29 +1,28 @@
 package org.example;
 
-import org.example.controllers.CommandsController;
+import org.example.controllers.OrdersController;
 import org.example.controllers.HomeController;
 import org.example.core.Conf;
 import org.example.core.Template;
 import org.example.middlewares.LoggerMiddleware;
 import spark.Spark;
-import org.example.CommandHandler;
 
 public class App {
     public static void main(String[] args) {
         initialize();
 
-        CommandHandler ordersHandler = new CommandHandler();
+        OrdersHandler ordersHandler = new OrdersHandler();
         HomeController homeController = new HomeController();
-        CommandsController commandsController = new CommandsController(ordersHandler);
+        OrdersController ordersController = new OrdersController(ordersHandler);
 
         // Home routes
         Spark.get("/", homeController::homePage);
 
         // Commands route
-        Spark.get("/order", commandsController::createOrder);
-        Spark.get("/orders/:id/customer", commandsController::customerDetail);
-        Spark.get("/orders/:id/employee", commandsController::employeeDetail);
-        Spark.get("/dashboard", commandsController::dashboard);
+        Spark.get("/order", ordersController::createOrder);
+        Spark.get("/orders/:id/customer", ordersController::customerDetail);
+        Spark.get("/orders/:id/employee", ordersController::employeeDetail);
+        Spark.get("/dashboard", ordersController::dashboard);
     }
 
     static void initialize() {
