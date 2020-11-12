@@ -1,13 +1,12 @@
 package org.example.models;
 
 import org.example.OnOrderChangeListener;
-import org.example.controllers.CommandsController;
 import org.example.models.items.Item;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Command {
+public class Order {
     public void setOnChangeListener(OnOrderChangeListener onChangeListener) {
         this.listener = onChangeListener;
     }
@@ -24,7 +23,7 @@ public class Command {
 
     private OnOrderChangeListener listener;
 
-    public Command() {
+    public Order() {
         this.items = new ArrayList<>();
         this.state = State.NEW;
     }
@@ -42,7 +41,7 @@ public class Command {
     }
 
     public void setState(State state) {
-        if (this.getState() == Command.State.PROCESSED || this.getState() == Command.State.ABORTED) {
+        if (this.getState() == Order.State.PROCESSED || this.getState() == Order.State.ABORTED) {
             return;
         }
 
