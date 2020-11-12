@@ -5,7 +5,6 @@ import org.example.core.Template;
 import org.example.models.Command;
 import org.example.models.items.Console;
 import org.example.models.items.Goodie;
-import org.example.models.items.Item;
 import spark.Request;
 import spark.Response;
 
@@ -52,3 +51,24 @@ public class CommandsController {
         params.put("commands", commandHandler.getCommands());
         return Template.render("dashboard.html", params);
     }
+
+    public String employeeDetail(Request request, Response response) {
+        int id = Integer.parseInt(request.params("id"));
+        int index = id - 1;
+        Command order = commandHandler.getCommands().get(index);
+
+        String newStateString = request.queryParamOrDefault("state", "");
+        if (!newStateString.isEmpty()) {
+            Command.State newState = Command.State.valueOf(newStateString);
+            commandHandler.updateOrder(order, newState);
+        }
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("order", order);
+        return Template.render("employee/detail.html", params);
+    }
+
+    public String customerDetail(Request request, Response response) {
+        return "";
+    }
+}
