@@ -1,6 +1,6 @@
 package org.example.controllers;
 
-import org.example.CommandHandler;s
+import org.example.CommandHandler;
 import org.example.core.Template;
 import org.example.models.Command;
 import org.example.models.items.Console;
