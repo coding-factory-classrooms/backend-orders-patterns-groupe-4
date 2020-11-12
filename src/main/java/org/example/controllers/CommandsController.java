@@ -37,6 +37,7 @@ public class CommandsController {
                 item.setName(goodie);
                 command.addItem(item);
             }
+            command.setOnChangeListener(commandHandler);
             commandHandler.addCommand(command);
 
             // TODO: Rediriger vers la page de la commande (customer)
@@ -49,6 +50,7 @@ public class CommandsController {
     public String dashboard(Request request, Response response) {
         Map<String, Object> params = new HashMap<>();
         params.put("commands", commandHandler.getCommands());
+        params.put("history", commandHandler.getHistory());
         return Template.render("dashboard.html", params);
     }
 
@@ -60,7 +62,7 @@ public class CommandsController {
         String newStateString = request.queryParamOrDefault("state", "");
         if (!newStateString.isEmpty()) {
             Command.State newState = Command.State.valueOf(newStateString);
-            commandHandler.updateOrder(order, newState);
+            order.setState(newState);
         }
 
         Map<String, Object> params = new HashMap<>();

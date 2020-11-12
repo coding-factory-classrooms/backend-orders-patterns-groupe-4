@@ -18,6 +18,12 @@
             #end
         </tbody>
     </table>
+    <h2 class="title">History</h2>
+    <ul>
+        #foreach ($history_line in $history)
+        <li>$history_line</li>
+        #end
+    </ul>
 </div>
 
 <script>

@@ -34,7 +34,7 @@ public class CommandHandlerTest {
         Command order = new Command();
         order.setState(Command.State.IN_PROGRESS);
 
-        commandHandler.updateOrder(order, Command.State.IN_PROGRESS);
+        order.setState(Command.State.IN_PROGRESS);
         Assert.assertEquals(Command.State.IN_PROGRESS, order.getState());
     }
 
@@ -42,7 +42,7 @@ public class CommandHandlerTest {
         Command order = new Command();
         order.setState(Command.State.PROCESSED);
 
-        commandHandler.updateOrder(order, Command.State.IN_PROGRESS);
+        order.setState(Command.State.IN_PROGRESS);
         Assert.assertEquals(Command.State.PROCESSED, order.getState());
     }
 
@@ -50,7 +50,23 @@ public class CommandHandlerTest {
         Command order = new Command();
         order.setState(Command.State.ABORTED);
 
-        commandHandler.updateOrder(order, Command.State.IN_PROGRESS);
+        order.setState(Command.State.IN_PROGRESS);
         Assert.assertEquals(Command.State.ABORTED, order.getState());
+    }
+
+    @Test public void addEntryInList() {
+        Assert.assertEquals(0,commandHandler.getHistory().size());
+        Command order = new Command();
+        commandHandler.addCommand(order);
+        Assert.assertEquals(1,commandHandler.getHistory().size());
+    }
+
+    @Test public void updateEntryInList() {
+        Assert.assertEquals(0,commandHandler.getHistory().size());
+        Command order = new Command();
+        commandHandler.addCommand(order);
+        order.setState(Command.State.IN_PROGRESS);
+        Assert.assertEquals(2,commandHandler.getHistory().size());
+        System.out.println(commandHandler.getHistory());
     }
 }
