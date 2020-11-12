@@ -1,3 +1,4 @@
+import junit.framework.AssertionFailedError;
 import org.example.CommandHandler;
 import org.example.models.Command;
 import org.junit.Assert;
@@ -68,5 +69,17 @@ public class CommandHandlerTest {
         order.setState(Command.State.IN_PROGRESS);
         Assert.assertEquals(2,commandHandler.getHistory().size());
         System.out.println(commandHandler.getHistory());
+    }
+
+    @Test(expected = Test.None.class) public void verifyUndoEmptyHistory() {
+        commandHandler.undoAction();
+    }
+
+    @Test public void verifyUndoOnceEntryHistory() {
+        Command order = new Command();
+        commandHandler.addCommand(order);
+        order.setState(Command.State.IN_PROGRESS);
+        commandHandler.undoAction();
+        Assert.assertEquals(Command.State.NEW, commandHandler.getCommands().get(0).getState());
     }
 }

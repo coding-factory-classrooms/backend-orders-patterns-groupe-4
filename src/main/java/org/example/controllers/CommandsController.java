@@ -48,9 +48,17 @@ public class CommandsController {
     }
 
     public String dashboard(Request request, Response response) {
+        String action = request.queryParamOrDefault("action", "");
+
+        if (!action.isEmpty()) {
+            if (action.equals("undo")) {
+                commandHandler.undoAction();
+            }
+        }
         Map<String, Object> params = new HashMap<>();
         params.put("commands", commandHandler.getCommands());
         params.put("history", commandHandler.getHistory());
+        params.put("historyIndex", commandHandler.getHistoryIndex());
         return Template.render("dashboard.html", params);
     }
 

@@ -10,12 +10,14 @@ import java.util.List;
 
 public class CommandHandler implements OnOrderChangeListener{
     public List<Command> commands;
+    private List<CommandsMemento> history;
+    private int historyIndex;
 
-    public List<CommandsMemento> history;
 
     public CommandHandler() {
         this.commands = new ArrayList<>();
         this.history = new ArrayList<>();
+        historyIndex = 0;
     }
 
     public List<Command> getCommands() {
@@ -36,6 +38,7 @@ public class CommandHandler implements OnOrderChangeListener{
 
     public void setState() {
         this.history.add( new CommandsMemento(this.commands));
+        historyIndex++;
 
     }
 
@@ -46,6 +49,19 @@ public class CommandHandler implements OnOrderChangeListener{
     @Override
     public void onOrderChange() {
         this.setState();
+    }
+
+    public void undoAction() {
+        int undoIndex = historyIndex -1;
+        if (undoIndex < 0) {
+            return;
+        }
+        historyIndex = undoIndex;
+        this.commands = new ArrayList<>(this.history.get(historyIndex).getState());
+    }
+
+    public int getHistoryIndex() {
+        return this.historyIndex;
     }
 
     public class CommandsMemento {

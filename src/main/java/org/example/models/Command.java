@@ -31,8 +31,7 @@ public class Command {
 
     public void addItem(Item item) {
         items.add(item);
-        this.listener.onOrderChange();
-    }
+        if (this.listener != null) this.listener.onOrderChange();    }
 
     public List<Item> getItems() {
         return items;
@@ -49,7 +48,7 @@ public class Command {
         }
 
         this.state = state;
-        this.listener.onOrderChange();
+        if (this.listener != null) this.listener.onOrderChange();
     }
 
     @Override
