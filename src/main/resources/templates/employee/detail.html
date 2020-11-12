@@ -12,10 +12,9 @@
     <form method="GET" action="">
         <div class="select">
             <select id="select" name="state">
-                <option value="NEW">NEW</option>
-                <option value="IN_PROGRESS">IN PROGRESS</option>
-                <option value="PROCESSED">PROCESSED</option>
-                <option value="ABORTED">ABORTED</option>
+                #foreach ($state in $states)
+                    <option value="$state">$state</option>
+                #end
             </select>
         </div>
         <button class="button is-primary" type="submit">Update order</button>

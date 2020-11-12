@@ -65,6 +65,7 @@ public class CommandsController {
 
         Map<String, Object> params = new HashMap<>();
         params.put("order", order);
+        params.put("states", Command.State.values());
         return Template.render("employee/detail.html", params);
     }
 
