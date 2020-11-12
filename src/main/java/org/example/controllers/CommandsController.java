@@ -55,10 +55,16 @@ public class CommandsController {
     public String employeeDetail(Request request, Response response) {
         int id = Integer.parseInt(request.params("id"));
         int index = id - 1;
+        Command order = commandHandler.getCommands().get(index);
 
-        Command command = commandHandler.getCommands().get(index);
+        String newStateString = request.queryParamOrDefault("state", "");
+        if (!newStateString.isEmpty()) {
+            Command.State newState = Command.State.valueOf(newStateString);
+            commandHandler.updateOrder(order, newState);
+        }
+
         Map<String, Object> params = new HashMap<>();
-        params.put("command", command);
+        params.put("order", order);
         return Template.render("employee/detail.html", params);
     }
 

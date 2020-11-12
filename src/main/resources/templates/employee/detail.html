@@ -4,7 +4,7 @@
 <div class="container content">
     <h2 class="title is-2">Change the status of the order</h2>
     <ol type="1">
-        #foreach ($item in $command.getItems())
+        #foreach ($item in $order.getItems())
             <li>$item.getName()</li>
         #end
     </ol>
@@ -23,7 +23,7 @@
 </div>
 <script>
     document.querySelectorAll("#select > option").forEach((item) => {
-        const isSelected = item.attributes.getNamedItem("value").value === "$command.getState()";
+        const isSelected = item.attributes.getNamedItem("value").value === "$order.getState()";
         if (isSelected) {
             item.setAttribute("selected", "selected");
         }
