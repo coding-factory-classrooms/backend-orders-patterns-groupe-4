@@ -38,8 +38,7 @@ public class CommandsController {
                 command.addItem(item);
             }
             commandHandler.addCommand(command);
-
-            // TODO: Rediriger vers la page de la commande (customer)
+            response.redirect("/orders/" + commandHandler.getCommands().size() + "/customer");
         }
 
         Map<String, Object> params = new HashMap<>();
@@ -70,6 +69,15 @@ public class CommandsController {
     }
 
     public String customerDetail(Request request, Response response) {
-        return "";
+        int id = Integer.parseInt(request.params("id"));
+        int index = id - 1;
+
+        Command order = commandHandler.getCommands().get(index);
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("orderId", id);
+        params.put("state", order.getState());
+        params.put("items", order.getItems());
+        return Template.render("orderList.html", params);
     }
 }

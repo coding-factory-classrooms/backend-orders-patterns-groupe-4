@@ -6,6 +6,7 @@ import org.example.core.Conf;
 import org.example.core.Template;
 import org.example.middlewares.LoggerMiddleware;
 import spark.Spark;
+import org.example.CommandHandler;
 
 import java.util.HashMap;
 
