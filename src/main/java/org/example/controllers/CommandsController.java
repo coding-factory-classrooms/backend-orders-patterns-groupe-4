@@ -40,7 +40,7 @@ public class CommandsController {
                 command.addItem(item);
             }
             commandHandler.addCommand(command);
-            response.redirect("/order/customer");
+            response.redirect("/order/" + commandHandler.getCommands().size() + "/customer");
         }
 
         Map<String, Object> params = new HashMap<>();
@@ -54,7 +54,15 @@ public class CommandsController {
     }
 
     public Object customerDetail(Request request, Response response) {
+        int id = Integer.parseInt(request.params("id"));
+        int index = id - 1;
+
+        Command order = commandHandler.getCommands().get(index);
+
         Map<String, Object> params = new HashMap<>();
+        params.put("orderId", id);
+        params.put("state", order.getState());
+        params.put("items", order.getItems());
         return Template.render("orderList.html", params);
     }
-    }
+}

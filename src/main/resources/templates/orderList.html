@@ -1,30 +1,25 @@
 #parse("base.html")
 #@mainLayout()
-<h1>Commande Validée ! </h1>
-<h3>Details de la commande : </h3>
-<table>
-    <thead>
-    <tr>
-        <th>Numéro commande en cours  </th>
-        <th>Noms</th>
-        <th>items choisie</th>
-        <th>Etat</th>
-    </tr>
-    </thead>
-    <tbody>
-    #foreach ($i in $items)
-    <tr>
-        <td>
-            <a href="/items/$velocityCount">
-                $velocityCount
-            </a>
-        </td>
-        <td>$i.getName()</td>
-        <td>$i.getItemType()</td>
-    </tr>
-    #end
-    <tr>
-    </tr>
-    </tbody>
-</table>
+<h1 class="title is-1">Commande Validée ! </h1>
+<div class="container">
+    <h3 class="title is-3"><span class="tag is-large is-primary">$state</span> Details de la commande $orderId</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Numéro d'item</th>
+                <th>Nom</th>
+                <th>Type</th>
+            </tr>
+        </thead>
+        <tbody>
+        #foreach ($i in $items)
+            <tr>
+                <td>$velocityCount</td>
+                <td>$i.getName()</td>
+                <td>$i.getItemType()</td>
+            </tr>
+        #end
+        </tbody>
+    </table>
+</div>
 #end

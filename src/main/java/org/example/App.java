@@ -23,8 +23,7 @@ public class App {
 
         // Commands route
         Spark.get("/order", commandsController::createOrder);
-        Spark.get("/order/customer", commandsController::customerDetail);
-        //Spark.get("/orders/:id/customer", commandsController::customerDetail);
+        Spark.get("/order/:id/customer", commandsController::customerDetail);
         Spark.get("/dashboard", commandsController::dashboard);
     }
 
