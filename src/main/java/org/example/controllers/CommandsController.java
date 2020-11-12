@@ -52,3 +52,9 @@ public class CommandsController {
         params.put("commands", commandHandler.getCommands());
         return Template.render("dashboard.html", params);
     }
+
+    public String employeeDetail(Request request, Response response) {
+        Map<String, Object> params = new HashMap<>();
+        
+        return Template.render("employee/detail.html", params);
+    }
