@@ -6,6 +6,7 @@ import org.example.core.Conf;
 import org.example.core.Template;
 import org.example.middlewares.LoggerMiddleware;
 import spark.Spark;
+import org.example.CommandHandler;
 
 import java.util.HashMap;
 
@@ -22,7 +23,8 @@ public class App {
 
         // Commands route
         Spark.get("/order", commandsController::createOrder);
-        Spark.get("/orders/:id/customer", commandsController::customerDetail);
+        Spark.get("/order/customer", commandsController::customerDetail);
+        //Spark.get("/orders/:id/customer", commandsController::customerDetail);
         Spark.get("/dashboard", commandsController::dashboard);
     }
 

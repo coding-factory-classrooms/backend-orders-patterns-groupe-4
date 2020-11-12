@@ -9,6 +9,7 @@ import org.example.models.items.Item;
 import spark.Request;
 import spark.Response;
 
+import java.sql.SQLOutput;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,8 +40,7 @@ public class CommandsController {
                 command.addItem(item);
             }
             commandHandler.addCommand(command);
-
-            // TODO: Rediriger vers la page de la commande (customer)
+            response.redirect("/order/customer");
         }
 
         Map<String, Object> params = new HashMap<>();
@@ -51,4 +51,10 @@ public class CommandsController {
         Map<String, Object> params = new HashMap<>();
         params.put("commands", commandHandler.getCommands());
         return Template.render("dashboard.html", params);
+    }
+
+    public Object customerDetail(Request request, Response response) {
+        Map<String, Object> params = new HashMap<>();
+        return Template.render("orderList.html", params);
+    }
     }

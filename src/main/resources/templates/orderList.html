@@ -1,0 +1,30 @@
+#parse("base.html")
+#@mainLayout()
+<h1>Commande Validée ! </h1>
+<h3>Details de la commande : </h3>
+<table>
+    <thead>
+    <tr>
+        <th>Numéro commande en cours  </th>
+        <th>Noms</th>
+        <th>items choisie</th>
+        <th>Etat</th>
+    </tr>
+    </thead>
+    <tbody>
+    #foreach ($i in $items)
+    <tr>
+        <td>
+            <a href="/items/$velocityCount">
+                $velocityCount
+            </a>
+        </td>
+        <td>$i.getName()</td>
+        <td>$i.getItemType()</td>
+    </tr>
+    #end
+    <tr>
+    </tr>
+    </tbody>
+</table>
+#end
