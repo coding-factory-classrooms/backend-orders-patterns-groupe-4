@@ -6,10 +6,10 @@ import org.example.models.Order;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrdersHandler implements OnOrderChangeListener{
+public class OrdersHandler implements OnOrderChangeListener {
     private List<Order> orders;
 
-    private final List<OrdersOriginator.OrdersMemento> history;
+    private List<OrdersOriginator.OrdersMemento> history;
     private final OrdersOriginator originator;
     private int historyIndex;
 
@@ -39,8 +39,7 @@ public class OrdersHandler implements OnOrderChangeListener{
             return;
         }
         historyIndex = undoIndex;
-        this.orders = this.originator.restore(this.history.get(historyIndex));
-        System.out.println(this.orders);
+        this.orders =  this.originator.restore(this.history.get(historyIndex));
     }
 
     public void redoAction() {
@@ -58,6 +57,10 @@ public class OrdersHandler implements OnOrderChangeListener{
     }
 
     public void saveState() {
+        if (this.historyIndex < this.getHistory().size()) {
+            this.history = this.history.subList(0, this.historyIndex + 1);
+        }
+
         this.history.add(this.originator.save(this.orders));
         this.historyIndex = this.history.size() - 1;
     }

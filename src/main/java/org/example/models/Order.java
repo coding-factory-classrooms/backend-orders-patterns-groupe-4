@@ -11,6 +11,10 @@ public class Order {
         this.listener = onChangeListener;
     }
 
+    public OnOrderChangeListener getOnChangeListener() {
+        return listener;
+    }
+
     public enum State {
         NEW,
         IN_PROGRESS,

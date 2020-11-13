@@ -101,4 +101,17 @@ public class OrdersHandlerTest {
 
         Assert.assertEquals(Order.State.IN_PROGRESS, ordersHandler.getCommands().get(0).getState());
     }
+
+    @Test public void makeActionAfterUndoRewriteHistorySuccess() {
+        Order order = new Order();
+        order.setOnChangeListener(ordersHandler);
+        ordersHandler.addOrder(order);
+
+        order.setState(Order.State.IN_PROGRESS);
+        ordersHandler.undoAction();
+
+        ordersHandler.getCommands().get(0).setState(Order.State.PROCESSED);
+        Assert.assertEquals(Order.State.PROCESSED, ordersHandler.getHistory().get(1).getState().get(0).getState());
+    }
+
 }

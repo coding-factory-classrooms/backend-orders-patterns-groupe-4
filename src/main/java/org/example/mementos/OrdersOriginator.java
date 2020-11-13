@@ -13,7 +13,7 @@ public class OrdersOriginator {
     }
 
     public List<Order> restore(OrdersMemento memento) {
-        return new ArrayList<>(memento.getState());
+        return new ArrayList<>(this.clone(memento.getState()));
     }
 
     private List<Order> clone(List<Order> orders) {
@@ -22,6 +22,7 @@ public class OrdersOriginator {
         for (Order order : orders) {
             Order copyOrder = new Order();
             copyOrder.setState(order.getState());
+            copyOrder.setOnChangeListener(order.getOnChangeListener());
             copyOrder.getItems().addAll(order.getItems());
             orderList.add(copyOrder);
         }
