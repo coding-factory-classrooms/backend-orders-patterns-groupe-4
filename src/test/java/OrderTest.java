@@ -1,6 +1,6 @@
 import org.example.OnOrderChangeListener;
 import org.example.models.Order;
-import org.example.models.items.Console;
+import org.example.models.items.consoles.Console;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;

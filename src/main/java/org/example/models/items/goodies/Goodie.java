@@ -1,4 +1,4 @@
-package org.example.models.items;
+package org.example.models.items.goodies;
 
 import org.example.models.items.Item;
 

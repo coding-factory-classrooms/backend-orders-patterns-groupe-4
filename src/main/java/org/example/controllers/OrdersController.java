@@ -3,8 +3,13 @@ package org.example.controllers;
 import org.example.OrdersHandler;
 import org.example.core.Template;
 import org.example.models.Order;
-import org.example.models.items.Console;
-import org.example.models.items.Goodie;
+import org.example.models.items.consoles.Console;
+import org.example.models.items.consoles.PS5;
+import org.example.models.items.consoles.Switch;
+import org.example.models.items.consoles.XboxSerieX;
+import org.example.models.items.goodies.FateStrap;
+import org.example.models.items.goodies.Goodie;
+import org.example.models.items.goodies.SaberFigurine;
 import spark.Request;
 import spark.Response;
 
@@ -22,21 +27,20 @@ public class OrdersController {
         String action = request.queryParamOrDefault("action", "");
 
         if (action.equals("create_order")) {
-            String console = request.queryParamOrDefault("console-name", "");
-            String goodie = request.queryParamOrDefault("goodie-name", "");
+            String consoleName = request.queryParamOrDefault("console-name", "");
+            String goodieName = request.queryParamOrDefault("goodie-name", "");
 
             Order order = new Order();
-            if (!console.equals("")) {
-                Console item = new Console();
-                item.setName(console);
-                order.addItem(item);
+            if (!consoleName.equals("")) {
+                Console console = this.createConsole(consoleName);
+                if (console != null) order.addItem(console);
             }
 
-            if (!goodie.equals("")) {
-                Goodie item = new Goodie();
-                item.setName(goodie);
-                order.addItem(item);
+            if (!goodieName.equals("")) {
+                Goodie goodie = this.createGoodie(goodieName);
+                if (goodie != null) order.addItem(goodie);
             }
+
             order.setOnChangeListener(ordersHandler);
             ordersHandler.addOrder(order);
             response.redirect("/orders/" + ordersHandler.getCommands().size() + "/customer");
@@ -44,6 +48,19 @@ public class OrdersController {
 
         Map<String, Object> params = new HashMap<>();
         return Template.render("create_order.html", params);
+    }
+
+    private Console createConsole(String consoleName) {
+        if (consoleName.equals("ps5")) return new PS5();
+        if (consoleName.equals("xbox")) return new XboxSerieX();
+        if (consoleName.equals("switch")) return new Switch();
+        return null;
+    }
+
+    private Goodie createGoodie(String goodieName) {
+        if (goodieName.equals("fate-strap")) return new FateStrap();
+        if (goodieName.equals("saber-figurine")) return new SaberFigurine();
+        return null;
     }
 
     public String dashboard(Request request, Response response) {
