@@ -1,0 +1,16 @@
+sequenceDiagram
+    participant Utilisateur
+    participant OrdersController
+    participant Order
+    participant OrdersHandler
+    participant OrdersOriginator
+
+    Utilisateur->>+OrdersController: Clique sur "Update order"
+    OrdersController->>+Order: setState()
+    Order->>Order: Modifie le state
+    Order->>OrdersHandler: Notifie le listener
+    OrdersHandler->>+OrdersOriginator: save()
+    OrdersOriginator-->>OrdersHandler: Retour d'un OrderMemento
+    OrdersHandler->>+OrdersHandler: Mise à jour de l'historique
+    Order-->>OrdersController: À modifié l'état de la commande
+    OrdersController-->>-Utilisateur: Affiche le résultat

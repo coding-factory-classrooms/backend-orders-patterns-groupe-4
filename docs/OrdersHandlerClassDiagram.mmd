@@ -1,0 +1,49 @@
+classDiagram
+    class OrderHandler {
+        -orders: List<Order>
+        -history: List<OrderMemento>
+        -historyIndex: Integer
+
+        +addOrder(Order order)
+        +undoAction()
+        +redoAction()
+    }
+    class Order {
+        -items: List<Item>
+        -state: OrderState
+
+    }
+    class OrderState {
+        <<enumeration>>
+        NEW
+        IN_PROGRESS
+        PROCESSED
+        ABORTED
+    }
+    class Item {
+        <<abstract>>
+        -name: String
+
+        +getItemType() ItemType
+    }
+    class ItemType {
+        <<enumeration>>
+        GOODIE
+        CONSOLE,
+        VIDEO_GAME
+    }
+    class OrdersOriginator {
+        +save(List<Order> orders) OrdersMemento
+        +restore(OrdersMemento memento) List
+        -clone(List<Order> orders) List<Order>
+    }
+    class OrderMemento {
+        -state: List<Order>
+    }
+    Order -- OrderState
+    Item -- ItemType
+    Order o-- Item
+    OrderHandler o-- Order
+    OrderHandler o-- OrderMemento
+    OrderHandler -- OrdersOriginator
+    OrderMemento .. OrdersOriginator

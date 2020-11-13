@@ -1,0 +1,13 @@
+sequenceDiagram
+    participant Utilisateur
+    participant OrdersController
+    participant OrdersHandler
+    participant OrdersOriginator
+    Utilisateur->>+OrdersController: Clique sur "Submit order"
+    OrdersController->>+OrdersHandler: addOrder()
+    OrdersHandler->>OrdersHandler: Ajout de la commande dans la liste
+    OrdersHandler->>+OrdersOriginator: save()
+    OrdersOriginator-->>OrdersHandler: Retour d'un OrderMemento
+    OrdersHandler->>+OrdersHandler: Mise à jour de l'historique
+    OrdersHandler-->>OrdersController: Mise à jour de la liste des commandes
+    OrdersController-->>Utilisateur: Redirige vers la page /orders/:id/customer

@@ -1,0 +1,14 @@
+sequenceDiagram
+  participant Utilisateur
+  participant OrdersController
+  participant OrdersHandler
+  participant OrdersOriginator
+
+  Utilisateur->>+OrdersController: Clique sur le bouton "Undo"
+  OrdersController->>OrdersHandler: undoAction()
+  OrdersHandler->>OrdersHandler: Met à jour l'index de l'historique
+  OrdersHandler->>OrdersOriginator: restore()
+  OrdersOriginator-->>OrdersHandler: Récupère le state de l'étape précédente
+  OrdersHandler->>OrdersHandler: Applique l'ancien state au système
+  OrdersHandler-->>OrdersController:
+  OrdersController-->>-Utilisateur: Affiche la nouvelle entrée d'historique sélectionnée
