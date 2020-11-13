@@ -10,4 +10,4 @@ sequenceDiagram
     OrdersOriginator-->>OrdersHandler: Retour d'un OrderMemento
     OrdersHandler->>+OrdersHandler: Mise à jour de l'historique
     OrdersHandler-->>OrdersController: Mise à jour de la liste des commandes
-    OrdersController-->>Utilisateur: Redirige vers la page /orders/:id/customer
+    OrdersController-->>-Utilisateur: Redirige vers la page /orders/:id/customer
